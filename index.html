@@ -4,7 +4,6 @@ layout: main
 ---
 
         <section id="main_content">
-          {{ site.posts }}
           {% for post in site.posts %}
           <div class="main_list_item">
             <p><h2><a href="{{ post.url }}">{{ post.title }}</a></h2>{{ post.date | date_to_string }}</p>
