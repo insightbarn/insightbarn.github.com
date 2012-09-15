@@ -2,6 +2,8 @@
 title: Main
 layout: main
 ---
+
+        <section id="main_content">
           {% for post in site.posts %}
           <div class="main_list_item">
             <p><h2><a href="{{ post.url }}">{{ post.title }}</a></h2>{{
@@ -10,4 +12,5 @@ layout: main
             <p><a href="{{ post.url }}">Read more ...</a></p>
           </div>
           {% endfor %}
+        </section>
 
