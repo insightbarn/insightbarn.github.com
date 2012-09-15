@@ -1,16 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-use_krt = True
 import sys, os, re
 import datetime 
-try:
-        import krt
-except:
-        use_krt = False
-        print "Korean romanization is disabled"
-
+import krt
 import getopt
+import subprocess
 
 def usage():
         print """usage:
@@ -20,8 +14,6 @@ def usage():
 """
 
 def main():
-        global use_krt
-
         try:
                 opts, args = getopt.getopt(sys.argv[1:], "ht:m:",
                                            ["help", "title=", "markup="])
@@ -32,6 +24,9 @@ def main():
         
         orig_title = None
         markup = "markdown"
+
+        git_root = subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).strip()
+        print "git root: %s"%git_root
         
         for o, a in opts:
                 if o in ("-h", "--help"):
@@ -52,21 +47,23 @@ def main():
                 orig_title = raw_input("Enter title (alphabet/hangul, numbers or spaces): ")
         
         title = orig_title.replace(" ", "-")
-        if use_krt:
-                title = krt.romanize(title).lower()
-                title = re.sub("[^a-zA-Z0-9 -]", "-", title)
+        title = krt.romanize(title).lower()
+
+        title = re.sub("[^a-zA-Z0-9 -]", "-", title)
 
         today = datetime.date.today()
 
         assert markup in exts, "markup %s not in exts %s" % ( markup, exts )
 
         filename = "%s-%s.%s"%(today.strftime("%Y-%m-%d"), title, exts[markup])
+        post_dir = "%s/_posts"%git_root
+        file_path = "%s/%s"%(post_dir, filename)
 
-        if filename in os.listdir("."):
+        if os.path.exists(file_path):
                 print "file %s already exists"%filename
                 sys.exit(1)
         
-        entryf = open(filename, "w")
+        entryf = open(file_path, "w")
 
         if markup == "textile":
                 entryf.write("""---
