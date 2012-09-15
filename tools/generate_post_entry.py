@@ -70,7 +70,7 @@ def main():
 layout: post
 title: %s
 comments: no
-published: false
+published: true
 ---
 
 h1. {{ page.title }}"""%orig_title)
