@@ -1,8 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
+use_krt = True
 import sys, os, re
 import datetime 
-import krt
+try:
+        import krt
+except:
+        use_krt = False
+        print "Korean romanization is disabled"
+
 import getopt
 
 def usage():
@@ -13,6 +20,8 @@ def usage():
 """
 
 def main():
+        global use_krt
+
         try:
                 opts, args = getopt.getopt(sys.argv[1:], "ht:m:",
                                            ["help", "title=", "markup="])
@@ -22,7 +31,7 @@ def main():
                 sys.exit(1)
         
         orig_title = None
-        markup = "textile"
+        markup = "markdown"
         
         for o, a in opts:
                 if o in ("-h", "--help"):
@@ -43,9 +52,9 @@ def main():
                 orig_title = raw_input("Enter title (alphabet/hangul, numbers or spaces): ")
         
         title = orig_title.replace(" ", "-")
-        title = krt.romanize(title).lower()
-
-        title = re.sub("[^a-zA-Z0-9 -]", "-", title)
+        if use_krt:
+                title = krt.romanize(title).lower()
+                title = re.sub("[^a-zA-Z0-9 -]", "-", title)
 
         today = datetime.date.today()
 
