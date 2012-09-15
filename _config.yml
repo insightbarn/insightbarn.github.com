@@ -1,3 +1,10 @@
 pygments: true
 permalink: pretty
 auto: true
+authors:
+  sangman:
+    display_name: Sangman Kim
+    email: sangmank@cs.utexas.edu
+  jiwoo:
+    display_name: Jiwoo Pak
+    email: jiwoo.pak@gmail.com

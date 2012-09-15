@@ -27,6 +27,11 @@ def main():
 
         git_root = subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).strip()
         print "git root: %s"%git_root
+
+        git_author_trans_dic = {"Sangman Kim": "sangman", "Jiwoo Pak":"jiwoo"}
+        git_author = subprocess.check_output(["git", "config", "--global", "user.name"]).strip()
+        assert git_author in git_author_trans_dic
+        print "git author: %s (%s)"%(git_author_trans_dic[git_author], git_author)
         
         for o, a in opts:
                 if o in ("-h", "--help"):
@@ -65,29 +70,15 @@ def main():
         
         entryf = open(file_path, "w")
 
-        if markup == "textile":
-                entryf.write("""---
+        front_matter = """---
 layout: post
 title: %s
 comments: no
+author: %s
 published: true
----
-
-h1. {{ page.title }}"""%orig_title)
-        elif markup in ("md", "markdown"):
-                entryf.write("""---
-layout: post
-title: %s
-comments: no
-published: false
----
-
-{{ page.title }}
-%s"""%(orig_title, "="*len(orig_title)))
-        else:
-                print "ERROR: this is not happenning.... markup: %s" % markup
-                sys.exit(1)
+---""" % (orig_title, git_author_trans_dic[git_author])
         
+        entryf.write(front_matter)
         entryf.close()
 
         print "file %s has been created" % filename

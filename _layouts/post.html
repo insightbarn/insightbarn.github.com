@@ -2,6 +2,9 @@
 layout: main
 ---
 <div id="post">
+{% assign author = site.authors[page.author] %}
+<h1> {{ post.title }} </h1>
+<h2> by {{ author.display_name }}
 {{ content }}
 </div>
 
