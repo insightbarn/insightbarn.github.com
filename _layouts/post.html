@@ -1,8 +1,20 @@
 ---
-layout: main
+layout: default
 ---
 <div id="post">
 {{ content }}
+</div>
+
+<div id="fb-comments">
+  <p><fb:login-button autologoutlink="true"></fb:login-button></p>
+  <p><fb:like></fb:like></p>
+
+  {% if page.comments %} 
+  <hr/>
+  <h2>Comments</h2>
+  <div class="fb-comments" data-href="{{ site.url }}{{ page.url }}"
+       data-num-posts="4" data-width="706"></div>
+  {% endif%}
 </div>
 
 <div id="related">
