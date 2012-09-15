@@ -1,5 +1,0 @@
----
-layout: post
-title: github and pages rock
----
-I love github and its pages feature. I would like to make this as my homepage.
